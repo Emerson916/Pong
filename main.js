@@ -30,7 +30,7 @@ const user = {
 }
 
 const com = {
-    eixoX: canvas.width - 10,
+    eixoX: canvas.width - 50,
     eixoY: 200,
     sizeX: 20,
     sizeY: 200,
@@ -135,15 +135,15 @@ function KeyDown(evt) {
             user.eixoY += 20;
             break;
 
-        // case 87:  /*'W' => cima/up*/
-        //     eixoXP2 = eixoXP2
-        //     eixoYP2 += -20;
-        //     break;
+        case 87:  /*'W' => cima/up*/
+            com.eixoX = com.eixoX
+            com.eixoY += -20;
+            break;
 
-        // case 83:  /*'S' => baixo/down*/
-        //     eixoXP2 = eixoXP2;
-        //     eixoYP2 += 20;
-        //     break;
+        case 83:  /*'S' => baixo/down*/
+            com.eixoX = com.eixoX
+            com.eixoY += 20;
+            break;
     }
 }
 
@@ -154,6 +154,8 @@ function loop() {
     contexto.fillRect(0, 0, width, height);
 
     drawRacket(user.eixoX, user.eixoY, user.sizeX, user.sizeY, user.color)
+    drawRacket(com.eixoX, com.eixoY, com.sizeX, com.sizeY, com.color)
+
 
     for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
