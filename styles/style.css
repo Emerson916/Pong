@@ -14,29 +14,33 @@ body {
   height: inherit;
 }
 
-.menu {
-  width: 100%;
+header {
+  width: 100vw;
+  height: 50px;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-h1 {
-  width: 100%;
+.title-game {
   font-size: 1.5rem;
-  letter-spacing: -1px;
-  position: absolute;
-  margin: 0;
-  top: 20px;
-  left: 10px;
-  text-shadow: 0 0 5px white;
+  color: #fff;
+  text-shadow: 0 0 10px #FF6584;
+  padding-left: 20px;
+}
+
+.container-buttons {
+  height: 20px;
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
 }
 
 button {
-  width: 100px;
+  width: 50px;
   height: 50px;
   border-radius: 90px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
 }
 
 button:hover {

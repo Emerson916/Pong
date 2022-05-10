@@ -4,6 +4,9 @@ const contexto = canvas.getContext('2d');
 const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
+const openModal = () => document.querySelector('#modal-video').classList.add('active');
+const closeModal = () => document.querySelector('#modal-video').classList.remove('active');
+
 function random(min, max) {
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
     return num;
@@ -163,5 +166,3 @@ window.addEventListener("keydown", KeyDown, true)
 function start() {
     loop();
 }
-
-

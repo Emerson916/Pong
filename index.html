@@ -5,16 +5,59 @@
     <meta charset="utf-8">
     <title>Pong - The Game</title>
     <link rel="sortcut icon" href="img/pingPong.webp" type="icon/webp" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/modal.css">
 </head>
 
 <body>
-    <div class="menu">
-        <h1>Pong - The Game</h1>
-        <button onclick=start()>
-            <img src="./img/start.svg" alt="Imagem de um start, para iniciar o jogo"/>
-        </button>
+    <header>
+        <h1 class="title-game">Pong - The Game</h1>
+        <div class="container-buttons">
+            <button onclick=start()>
+                <img src="./img/start.svg" alt="Imagem de um start, para iniciar o jogo" />
+            </button>
+            <button onclick=openModal()>
+                <img src="./img/regras.svg" alt="Imagem de um livro, para ver as regras" />
+            </button>
+        </div>
+    </header>
+
+    <!-- Modal das Regras-->
+    <div class="modal" id="modal-video">
+        <div class="modal-content">
+            <headerModal class="modal-header">
+                <h1>👾 Regras 👾</h1>
+                <span class="close-button" onclick=closeModal()>&#10006;</span>
+            </headerModal>
+
+            <div class="body-modal">
+                <p>Ta achando que é tudo bagunçado, meu Nobre ?, segue as regras ae..</p>
+
+                <ul>
+                    <li>Não deixe a bolinha acertar o canto da tela.</li>
+                    <li>Você precisa marcar 3 ponto para ganhar.</li>
+                </ul>
+
+                <div class="container-controls">
+                    <h2>Controles</h2>
+                    <div class="controls">
+                        <div>
+                            <p class="players">Jogador 1</p>
+                            <img class="keys" src="./img/up.svg" alt="Tecla W do teclado" />
+                            <img class="keys" src="./img/down.svg" alt="Tecla S do teclado" />
+                        </div>
+                        <div>
+                            <p class="players">Jogador 2</p>
+                            <img class="keys" src="./img/w.svg" alt="Tecla W do teclado" />
+                            <img class="keys" src="./img/s.svg" alt="Tecla S do teclado" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    </div>
+
     <canvas></canvas>
 
     <script type="text/javascript" src="main.js">
