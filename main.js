@@ -7,6 +7,10 @@ const height = canvas.height = window.innerHeight;
 const openModal = () => document.querySelector('#modal-video').classList.add('active');
 const closeModal = () => document.querySelector('#modal-video').classList.remove('active');
 
+function Reset() {
+    window.location.reload();
+}
+
 function random(min, max) {
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
     return num;
@@ -14,6 +18,32 @@ function random(min, max) {
 
 function randomRGB() {
     return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
+}
+
+const user = {
+    eixoX: 20,
+    eixoY: 200,
+    sizeX: 20,
+    sizeY: 200,
+    color: "#FF6584",
+    score: 0
+}
+
+const com = {
+    eixoX: canvas.width - 10,
+    eixoY: 200,
+    sizeX: 20,
+    sizeY: 200,
+    color: "#FF6584",
+    score: 0
+}
+
+const rede = {
+    eixoX: canvas.width / 2 - 2 / 2,
+    eixoY: 0,
+    sizeX: 2,
+    sizeY: 10,
+    color: "#FF6584",
 }
 
 function Ball(x, y, velX, velY, color, size) {
@@ -32,22 +62,27 @@ function Ball(x, y, velX, velY, color, size) {
     }
 }
 
+function drawRacket(eixoX, eixoY, sizeX, sizeY, color) {
+    contexto.fillStyle = color
+    contexto.fillRect(eixoX, eixoY, sizeX, sizeY);
+}
 
 
 
-let testBall = new Ball(width / 2, height / 2, 5, 10, 'blue', 15);
+
+// drawRacket(eixoX, eixoY, sizeX, sizeY, color)
+function drawRede() {
+    for (let i = 0; i <= canvas.height; i + 15) {
+        drawRacket(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
+    }
+}
+
+let testBall = new Ball(width / 2, height / 2, 5, 10, '#FF6584', 15);
 
 testBall.x
 testBall.size
 testBall.color
 testBall.draw()
-
-// let testBall2 = new Ball(width/2, height/2, 15, 10, 'red', 20);
-
-// testBall.x
-// testBall.size
-// testBall.color
-// testBall.draw()
 
 let balls = [testBall];
 
@@ -89,52 +124,36 @@ Ball.prototype.update = function () {
     this.y += this.velY;
 }
 
-//Controle do player 1
-let eixoXP1 = 20
-let eixoYP1 = 200
-let sizeXP1 = 20
-let sizeYP1 = 200
-
-//Controle do player 2
-let eixoXP2 = width / 1.03
-let eixoYP2 = height / 4
-let sizeXP2 = 20
-let sizeYP2 = 200
-
 function KeyDown(evt) {
     switch (evt.keyCode) {
         case 38:  /*"Arrow up" => cima/up*/
-            eixoXP1 = sizeXP1;
-            eixoYP1 += -20;
+            user.eixoX = user.sizeX;
+            user.eixoY += -20;
             break;
         case 40:  /*"Arrow down" => baixo/down*/
-            eixoXP1 = sizeXP1;
-            eixoYP1 += 20;
+            user.eixoX = user.sizeX;
+            user.eixoY += 20;
             break;
 
-        case 87:  /*'W' => cima/up*/
-            eixoXP2 = eixoXP2
-            eixoYP2 += -20;
-            break;
+        // case 87:  /*'W' => cima/up*/
+        //     eixoXP2 = eixoXP2
+        //     eixoYP2 += -20;
+        //     break;
 
-        case 83:  /*'S' => baixo/down*/
-            eixoXP2 = eixoXP2;
-            eixoYP2 += 20;
-            break;
+        // case 83:  /*'S' => baixo/down*/
+        //     eixoXP2 = eixoXP2;
+        //     eixoYP2 += 20;
+        //     break;
     }
 }
+
+
 
 function loop() {
     contexto.fillStyle = 'rgba(0, 0, 0, 0.25)';
     contexto.fillRect(0, 0, width, height);
 
-    contexto.fillStyle = "green"
-    contexto.fillRect(eixoXP1, eixoYP1, sizeXP1, sizeYP1);
-
-    contexto.fillStyle = "blue"
-    contexto.fillRect(eixoXP2, eixoYP2, sizeXP2, sizeYP2);
-
-
+    drawRacket(user.eixoX, user.eixoY, user.sizeX, user.sizeY, user.color)
 
     for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
@@ -160,9 +179,10 @@ function loop() {
 
     requestAnimationFrame(loop);
 }
-window.addEventListener("keydown", KeyDown, true)
 
+window.addEventListener("keydown", KeyDown, true)
 
 function start() {
     loop();
 }
+
