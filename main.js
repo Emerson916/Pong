@@ -30,7 +30,7 @@ const user = {
 }
 
 const com = {
-    eixoX: canvas.width - 50,
+    eixoX: width - 50,
     eixoY: 200,
     sizeX: 20,
     sizeY: 200,
@@ -39,11 +39,27 @@ const com = {
 }
 
 const rede = {
-    eixoX: canvas.width / 2 - 2 / 2,
+    eixoX: width / 2 - 2 / 2,
     eixoY: 0,
-    sizeX: 2,
-    sizeY: 10,
+    sizeX: 4,
+    sizeY: 15,
     color: "#FF6584",
+}
+
+// drawText(user.score, width / 4, height / 5, "#FF6584")
+//     drawText(com.score, width / 4, height / 5, "#FF6584")
+
+
+function drawRacket(eixoX, eixoY, sizeX, sizeY, color) {
+    contexto.fillStyle = color
+    contexto.fillRect(eixoX, eixoY, sizeX, sizeY);
+}
+
+// drawRacket(eixoX, eixoY, sizeX, sizeY, color)
+function drawRede() {
+    for (let i = 0; i <= height; i += 20) {
+        drawRacket(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
+    }
 }
 
 function Ball(x, y, velX, velY, color, size) {
@@ -62,20 +78,7 @@ function Ball(x, y, velX, velY, color, size) {
     }
 }
 
-function drawRacket(eixoX, eixoY, sizeX, sizeY, color) {
-    contexto.fillStyle = color
-    contexto.fillRect(eixoX, eixoY, sizeX, sizeY);
-}
 
-
-
-
-// drawRacket(eixoX, eixoY, sizeX, sizeY, color)
-function drawRede() {
-    for (let i = 0; i <= canvas.height; i + 15) {
-        drawRacket(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
-    }
-}
 
 let testBall = new Ball(width / 2, height / 2, 5, 10, '#FF6584', 15);
 
@@ -155,7 +158,9 @@ function loop() {
 
     drawRacket(user.eixoX, user.eixoY, user.sizeX, user.sizeY, user.color)
     drawRacket(com.eixoX, com.eixoY, com.sizeX, com.sizeY, com.color)
-
+    drawRede()
+    
+    // drawRede(rede.eixoX, rede.eixoY, rede.sizeX, rede.sizeY, rede.color)
 
     for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
@@ -187,4 +192,3 @@ window.addEventListener("keydown", KeyDown, true)
 function start() {
     loop();
 }
-
