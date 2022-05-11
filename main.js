@@ -142,6 +142,7 @@ while (balls.length < 1) {
 }
 
 // Função movimento e colisão da bola
+
 Ball.prototype.update = function () {
     if ((this.x + this.size) >= width) {
         this.velX = -(this.velX);
@@ -166,15 +167,22 @@ Ball.prototype.update = function () {
     this.x += this.velX;
     this.y += this.velY;
 
-    let player = (balls.x < width / 2) ? user : com;
+    //IA - Bot
+    let computerLevel = 0.2;
+    com.eixoY += (this.y - (com.eixoY + com.sizeY/2)) * computerLevel;
+
+    let player = (this.x < width / 2) ? user : com;
+
     if (collision(balls, player)) {
-        let collidePoint = (balls.y - (player.eixoY + player.height / 2));
-        collidePoint = collidePoint / (player.height / 2);
+        let collidePoint = (this.y - (player.eixoY + player.sizeY / 2));
+        collidePoint = collidePoint / (player.sizeY / 2);
 
         let angleRad = (Math.PI / 4) * collidePoint;
-        let direction = (balls.x < width / 2) ? 1 : -1;
+        let direction = (this.x < width / 2) ? 1 : -1;
     }
+
 }
+
 
 //função para usar o teclado como controle
 function KeyControls(evt) {
@@ -200,7 +208,7 @@ function KeyControls(evt) {
     }
 }
 
-function loop() {
+function render() {
     contexto.fillStyle = 'rgba(0, 0, 0, 0.50)';
     contexto.fillRect(0, 0, width, height);
 
@@ -209,8 +217,11 @@ function loop() {
     drawRede()
     drawText(user.score, width / 4, 100, "#FF6584")
     drawText(com.score, width / 1.3, 100, "#FF6584")
+}
 
-    // drawRede(rede.eixoX, rede.eixoY, rede.sizeX, rede.sizeY, rede.color)
+function loop() {
+   
+    render()
 
     for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
@@ -229,11 +240,8 @@ function loop() {
                 }
             }
         }
-
-
         balls[i].collisionDetect();
     }
-
     requestAnimationFrame(loop);
 }
 
