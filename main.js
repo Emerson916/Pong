@@ -4,22 +4,6 @@ const contexto = canvas.getContext('2d');
 const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
-const openModal = () => document.querySelector('#modal-video').classList.add('active');
-const closeModal = () => document.querySelector('#modal-video').classList.remove('active');
-
-function Reset() {
-    window.location.reload();
-}
-
-function random(min, max) {
-    const num = Math.floor(Math.random() * (max - min + 1)) + min;
-    return num;
-}
-
-function randomRGB() {
-    return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
-}
-
 const user = {
     eixoX: 20,
     eixoY: 200,
@@ -46,9 +30,52 @@ const rede = {
     color: "#FF6584",
 }
 
+
+const openModal = () => document.querySelector('#modal-video').classList.add('active');
+const closeModal = () => document.querySelector('#modal-video').classList.remove('active');
+
+function Reset() {
+    window.location.reload();
+}
+
+function random(min, max) {
+    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num;
+}
+
+function randomRGB() {
+    return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
+}
+
+function userWinner() {
+    if (user.score === 3 && com.score === 0) {
+        alert("Parabéns você massacrou ele")
+        Reset()
+    } else if (user.score === 5) {
+        alert("Parabéns você venceu")
+        Reset()
+    }
+}
+
+function comWinner() {
+    if (com.score === 3 && user.score === 0) {
+        alert("Haha, Perdeu feio para o bot")
+        Reset()
+    } else if (com.score === 5) {
+        alert("Você perdeu")
+        Reset()
+    }
+}
+
 function drawRect(eixoX, eixoY, sizeX, sizeY, color) {
     contexto.fillStyle = color
     contexto.fillRect(eixoX, eixoY, sizeX, sizeY);
+}
+
+function drawRede() {
+    for (let i = 0; i <= height; i += 20) {
+        drawRect(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
+    }
 }
 
 function drawText(text, eixoX, eixoY, color) {
@@ -69,13 +96,6 @@ function collision(b, p) {
     b.right = b.x + b.size;
 
     return b.right > p.left && b.top < p.bottom && b.left < p.right && b.bottom > p.top;
-}
-
-// drawRect(eixoX, eixoY, sizeX, sizeY, color)
-function drawRede() {
-    for (let i = 0; i <= height; i += 20) {
-        drawRect(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
-    }
 }
 
 function Ball(x, y, velX, velY, color, size) {
@@ -108,6 +128,8 @@ while (balls.length < 1) {
     let ball = new Ball(
         // ball position always drawn at least one ball width
         // away from the edge of the canvas, to avoid drawing errors
+        // posição da bola sempre desenhada com pelo menos uma largura de bola
+        // longe da borda da tela, para evitar erros de desenho
         random(0 + size, width - size),
         random(0 + size, height - size),
         random(-7, 7),
@@ -119,27 +141,7 @@ while (balls.length < 1) {
     balls.push(ball);
 }
 
-function userWinner() {
-    if (user.score === 3 && com.score === 0) {
-        alert("Parabéns você massacrou ele")
-        Reset()
-    } else if (user.score === 5) {
-        alert("Parabéns você venceu")
-        Reset()
-    }
-}
-
-function comWinner() {
-    if (com.score === 3 && user.score === 0) {
-        alert("Haha, Perdeu feio para o bot")
-        Reset()
-    } else if (com.score === 5) {
-        alert("Você perdeu")
-        Reset()
-    }
-}
-
-// Função movimento e colisão
+// Função movimento e colisão da bola
 Ball.prototype.update = function () {
     if ((this.x + this.size) >= width) {
         this.velX = -(this.velX);
@@ -174,7 +176,8 @@ Ball.prototype.update = function () {
     }
 }
 
-function KeyDown(evt) {
+//função para usar o teclado como controle
+function KeyControls(evt) {
     switch (evt.keyCode) {
         case 38:  /*"Arrow up" => cima/up*/
             user.eixoX = user.sizeX;
@@ -234,7 +237,7 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-window.addEventListener("keydown", KeyDown, true)
+window.addEventListener("keydown", KeyControls, true)
 
 function start() {
     loop();
