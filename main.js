@@ -78,8 +78,6 @@ function Ball(x, y, velX, velY, color, size) {
     }
 }
 
-
-
 let testBall = new Ball(width / 2, height / 2, 5, 10, '#FF6584', 15);
 
 testBall.x
@@ -105,14 +103,40 @@ while (balls.length < 1) {
     balls.push(ball);
 }
 
+function userWinner() {
+    if (user.score === 3 && com.score === 0) {
+        alert("Parabéns você massacrou ele")
+        Reset()
+    } else if (user.score === 5) {
+        alert("Parabéns você venceu")
+        Reset()
+    }
+}
+
+function comWinner() {
+    if (com.score === 3 && user.score === 0) {
+        alert("Haha, Perdeu feio para o bot")
+        Reset()
+    } else if (com.score === 5) {
+        alert("Você perdeu")
+        Reset()
+    }
+}
+
 // Função movimento
 Ball.prototype.update = function () {
     if ((this.x + this.size) >= width) {
         this.velX = -(this.velX);
+        user.score = user.score + 1
+        userWinner()
+        console.log("Aqui esta o placar do usuário :", user.score)
     }
 
     if ((this.x - this.size) <= 0) {
         this.velX = -(this.velX);
+        com.score = com.score + 1
+        comWinner()
+        console.log("Aqui esta o placar do bot :", com.score)
     }
 
     if ((this.y + this.size) >= height) {
@@ -159,7 +183,7 @@ function loop() {
     drawRacket(user.eixoX, user.eixoY, user.sizeX, user.sizeY, user.color)
     drawRacket(com.eixoX, com.eixoY, com.sizeX, com.sizeY, com.color)
     drawRede()
-    
+
     // drawRede(rede.eixoX, rede.eixoY, rede.sizeX, rede.sizeY, rede.color)
 
     for (let i = 0; i < balls.length; i++) {
