@@ -46,19 +46,35 @@ const rede = {
     color: "#FF6584",
 }
 
-// drawText(user.score, width / 4, height / 5, "#FF6584")
-//     drawText(com.score, width / 4, height / 5, "#FF6584")
-
-
-function drawRacket(eixoX, eixoY, sizeX, sizeY, color) {
+function drawRect(eixoX, eixoY, sizeX, sizeY, color) {
     contexto.fillStyle = color
     contexto.fillRect(eixoX, eixoY, sizeX, sizeY);
 }
 
-// drawRacket(eixoX, eixoY, sizeX, sizeY, color)
+function drawText(text, eixoX, eixoY, color) {
+    contexto.fillStyle = color;
+    contexto.font = "50px fantasy";
+    contexto.fillText(text, eixoX, eixoY)
+}
+
+function collision(b, p) {
+    p.top = p.eixoY;
+    p.bottom = p.eixoY + p.height;
+    p.left = p.eixoX;
+    p.right = p.eixoX + p.width;
+
+    b.top = b.y - b.size;
+    b.bottom = b.y + b.size;
+    b.left = b.x - b.size;
+    b.right = b.x + b.size;
+
+    return b.right > p.left && b.top < p.bottom && b.left < p.right && b.bottom > p.top;
+}
+
+// drawRect(eixoX, eixoY, sizeX, sizeY, color)
 function drawRede() {
     for (let i = 0; i <= height; i += 20) {
-        drawRacket(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
+        drawRect(rede.eixoX, rede.eixoY + i, rede.sizeX, rede.sizeY, rede.color)
     }
 }
 
@@ -123,20 +139,18 @@ function comWinner() {
     }
 }
 
-// Função movimento
+// Função movimento e colisão
 Ball.prototype.update = function () {
     if ((this.x + this.size) >= width) {
         this.velX = -(this.velX);
         user.score = user.score + 1
         userWinner()
-        console.log("Aqui esta o placar do usuário :", user.score)
     }
 
     if ((this.x - this.size) <= 0) {
         this.velX = -(this.velX);
         com.score = com.score + 1
         comWinner()
-        console.log("Aqui esta o placar do bot :", com.score)
     }
 
     if ((this.y + this.size) >= height) {
@@ -149,6 +163,15 @@ Ball.prototype.update = function () {
 
     this.x += this.velX;
     this.y += this.velY;
+
+    let player = (balls.x < width / 2) ? user : com;
+    if (collision(balls, player)) {
+        let collidePoint = (balls.y - (player.eixoY + player.height / 2));
+        collidePoint = collidePoint / (player.height / 2);
+
+        let angleRad = (Math.PI / 4) * collidePoint;
+        let direction = (balls.x < width / 2) ? 1 : -1;
+    }
 }
 
 function KeyDown(evt) {
@@ -174,15 +197,15 @@ function KeyDown(evt) {
     }
 }
 
-
-
 function loop() {
-    contexto.fillStyle = 'rgba(0, 0, 0, 0.25)';
+    contexto.fillStyle = 'rgba(0, 0, 0, 0.50)';
     contexto.fillRect(0, 0, width, height);
 
-    drawRacket(user.eixoX, user.eixoY, user.sizeX, user.sizeY, user.color)
-    drawRacket(com.eixoX, com.eixoY, com.sizeX, com.sizeY, com.color)
+    drawRect(user.eixoX, user.eixoY, user.sizeX, user.sizeY, user.color)
+    drawRect(com.eixoX, com.eixoY, com.sizeX, com.sizeY, com.color)
     drawRede()
+    drawText(user.score, width / 4, 100, "#FF6584")
+    drawText(com.score, width / 1.3, 100, "#FF6584")
 
     // drawRede(rede.eixoX, rede.eixoY, rede.sizeX, rede.sizeY, rede.color)
 
