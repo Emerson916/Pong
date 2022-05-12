@@ -66,7 +66,12 @@
 .container-controls {
     width: 100%;
     text-align: center;
-    margin-top: 50px;
+   
+}
+
+.center-line-controls {
+    display: flex;
+    flex-direction: column;
 }
 
 h2 {
