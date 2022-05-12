@@ -147,7 +147,7 @@ function collision(b, p) {
     p.left = p.eixoX;
     p.right = p.eixoX + p.width;
 
-    return b.right > p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom
+    return (b.right > p.left && b.left < p.right && b.bottom > p.top && b.top < p.bottom)
 }
 
 function update() {
@@ -158,9 +158,9 @@ function update() {
     let computerLevel = 0.2;
     com.eixoY += (ball.eixoY - (com.eixoY + com.sizeY / 2)) * computerLevel;
 
-    // if (ball.eixoY + ball.radius > height || ball.eixoY - ball.radius < 0) {
-    //     ball.velY = -ball.velY;
-    // }
+    if (ball.eixoY + ball.radius > height || ball.eixoY - ball.radius < 0) {
+        ball.velY = -ball.velY;
+    }
 
     if ((ball.eixoX + ball.radius) >= width) {
         ball.velX = -(ball.velX);
@@ -172,14 +172,6 @@ function update() {
         ball.velX = -(ball.velX);
         com.score = com.score + 1
         comWinner()
-    }
-
-    if ((ball.eixoY + ball.radius) >= height) {
-        ball.velY = -(ball.velY);
-    }
-
-    if ((ball.eixoY - ball.radius) <= 0) {
-        ball.velY = -(ball.velY);
     }
 
     let player = (ball.eixoX < width / 2) ? user : com;
@@ -215,30 +207,9 @@ function render() {
 function game() {
     update()
     render()
-    // for (let i = 0; i < balls.length; i++) {
-    //     balls[i].draw();
-    //     balls[i].update();
-
-    //     Ball.prototype.collisionDetect = function () {
-    //         for (let j = 0; j < balls.length; j++) {
-    //             if (!(this === balls[j])) {
-    //                 const dx = this.x - balls[j].x;
-    //                 const dy = this.y - balls[j].y;
-    //                 const distance = Math.sqrt(dx * dx + dy * dy);
-
-    //                 if (distance < this.size + balls[j].size) {
-    //                     balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     balls[i].collisionDetect();
-    // }
-    // requestAnimationFrame(loop);
 }
 
 const framePerSecond = 50;
-
 
 function start() {
     setInterval(game, 1000 / framePerSecond)
