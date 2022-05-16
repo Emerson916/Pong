@@ -11,8 +11,9 @@
 
 Veja um pouco mais sobre o Canvas na documentação do Mozilla ==> <a href="https://developer.mozilla.org/pt-BR/docs/Web/API/Canvas_API/Tutorial">Docs</a>
 
-### Veja como funciona
+## Veja como funciona
 
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/77053593/168637852-e634e3a7-5cc4-4633-b867-b291b2208fa4.gif)
 
 ### Ficou com alguma dúvida ?
 
