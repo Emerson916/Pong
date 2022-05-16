@@ -22,6 +22,7 @@ const ball = {
 }
 
 const user = {
+    name: "player",
     eixoX: 20,
     eixoY: 200,
     sizeX: 20,
@@ -31,6 +32,7 @@ const user = {
 }
 
 const com = {
+    name: "com",
     eixoX: width - 50,
     eixoY: 200,
     sizeX: 20,
@@ -136,26 +138,12 @@ function movePaddle(evt) {
 
 canvas.addEventListener("mousemove", movePaddle, true)
 
-function collision(b, p) {
-    b.top = b.eixoY - b.radius;
-    b.bottom = b.eixoY + b.radius;
-    b.left = b.eixoX - b.radius;
-    b.right = b.eixoX + b.radius;
-
-    p.top = p.eixoY;
-    p.bottom = p.eixoY + p.height;
-    p.left = p.eixoX;
-    p.right = p.eixoX + p.width;
-
-    return (b.right > p.left && b.left < p.right && b.bottom > p.top && b.top < p.bottom)
-}
-
 function update() {
     ball.eixoX += ball.velX;
     ball.eixoY += ball.velY;
 
     //IA - Bot
-    let computerLevel = 0.2;
+    let computerLevel = 0.1;
     com.eixoY += (ball.eixoY - (com.eixoY + com.sizeY / 2)) * computerLevel;
 
     if (ball.eixoY + ball.radius > height || ball.eixoY - ball.radius < 0) {
@@ -163,32 +151,36 @@ function update() {
     }
 
     if ((ball.eixoX + ball.radius) >= width) {
-        ball.velX = -(ball.velX);
+        ball.velX = -ball.velX;
         user.score = user.score + 1
         userWinner()
     }
 
     if ((ball.eixoX - ball.radius) <= 0) {
-        ball.velX = -(ball.velX);
+        ball.velX = -ball.velX;
         com.score = com.score + 1
         comWinner()
     }
 
-    let player = (ball.eixoX < width / 2) ? user : com;
+    let player = ball.eixoX < width / 2 ? user : com;
+    const distComp = (player.eixoX - player.sizeX) - ball.eixoX;
+    const distPlay = ball.eixoX - (player.eixoX + player.sizeX + ball.radius);
 
-    if (collision(ball, player)) {
-        let collidePoint = ball.eixoY - (player.eixoY + player.sizeY / 2);
+    if (distPlay <= 1 && player.name === "player" && ball.eixoY <= (player.eixoY + 200)) {
+        console.log("Bateu na raquete do player")        
+        ball.velX = -ball.velX;
+    }
 
-        collidePoint = collidePoint / (player.sizeY / 2);
+    if (distComp <= 1 && player.name === "com" && ball.eixoY <= player.eixoY ) {
+        console.log("Bateu na raquete do bot")
+        ball.velX = -ball.velX;
+    }
+    if (distPlay <= 1 && player.name === "player" && ball.eixoY <= player.eixoY ) {
+        ball.velX = -ball.velX;
+    }
 
-        let angleRad = collidePoint + Math.PI / 4;
-
-        let direction = (ball.eixoX < width / 2) ? 1 : -1;
-
-        ball.velX = direction * ball.speed * Math.cos(angleRad);
-        ball.velY = ball.speed * Math.sin(angleRad);
-
-        ball.speed += 0.1;
+    if (distComp <= 1 && player.name === "com" && ball.eixoY >= player.eixoY) {
+        ball.velX = -ball.velX;
     }
 }
 
