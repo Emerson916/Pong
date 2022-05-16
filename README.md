@@ -2,7 +2,7 @@
 
 # 📚 Descrição do Projeto
 
-### Esse é um joguinho inspirado no jogo Pong de 1972, tem como temática o tênis de mesa em um angulo bidimensional, marque pontos e derrote o bot adversário..
+Esse é um joguinho inspirado no jogo Pong de 1972, tem como temática o tênis de mesa em um angulo bidimensional, marque pontos e derrote o bot adversário..
 
 # 👾 Tecnologias utilizadas
 
